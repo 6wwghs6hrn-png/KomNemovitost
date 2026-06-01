@@ -1,1 +1,102 @@
-<!DOCTYPE html><meta charset="utf-8"><title>Hlídač</title><body style="font-family:monospace;background:#0f1115;color:#e7e9ee;padding:40px">Hlídač zatím neproběhl. Spusť workflow „Run workflow" nebo počkej na 12:00.</body>
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="3600">
+<title>Hlídač komerčních prostor — Klánovice +5 km</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --panel-2: #1d212a;
+    --line: #2a2f3a;
+    --ink: #e7e9ee;
+    --muted: #8b93a3;
+    --accent: #e8c170;
+    --new: #7ee0a0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    background-image: radial-gradient(circle at 20% -10%, #1a2330 0%, transparent 45%),
+                      radial-gradient(circle at 100% 0%, #1d2018 0%, transparent 40%);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 40px 22px 80px; }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 22px; margin-bottom: 34px; }
+  .kicker { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .18em;
+            text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+  h1 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(28px, 5vw, 44px);
+        line-height: 1.05; margin: 0 0 14px; }
+  .status { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--muted);
+            display: flex; gap: 20px; flex-wrap: wrap; }
+  .status b { color: var(--ink); font-weight: 500; }
+  h2 { font-family: "Fraunces", serif; font-weight: 500; font-size: 22px;
+        margin: 44px 0 18px; display: flex; align-items: baseline; gap: 12px; }
+  h2 .count { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--muted); }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+  .card { display: flex; flex-direction: column; background: var(--panel);
+          border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+          text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .thumb { aspect-ratio: 16/10; background-size: cover; background-position: center;
+           background-color: var(--panel-2); }
+  .thumb--empty { display: flex; align-items: center; justify-content: center;
+                  color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+  .card-body { padding: 14px 15px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .card-top { display: flex; align-items: center; gap: 10px; }
+  .price { font-family: "IBM Plex Mono", monospace; font-weight: 500; color: var(--accent);
+           font-size: 15px; margin-left: auto; }
+  .badge { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .1em;
+           color: var(--bg); background: var(--new); padding: 2px 7px; border-radius: 4px; font-weight: 500; }
+  .card h3 { font-size: 15px; font-weight: 600; margin: 2px 0 0; line-height: 1.25; }
+  .loc { color: var(--muted); font-size: 13px; margin: 0; }
+  .meta { font-family: "IBM Plex Mono", monospace; color: var(--muted); font-size: 12px; margin: 2px 0 0; }
+  .empty { color: var(--muted); font-style: italic; padding: 18px 0; }
+  details.day { border: 1px solid var(--line); border-radius: 10px; margin-bottom: 10px;
+                background: rgba(255,255,255,.012); }
+  details.day summary { cursor: pointer; padding: 13px 16px; font-family: "IBM Plex Mono", monospace;
+                        font-size: 13px; color: var(--ink); list-style: none; }
+  details.day summary::-webkit-details-marker { display: none; }
+  details.day summary:before { content: "▸ "; color: var(--accent); }
+  details.day[open] summary:before { content: "▾ "; }
+  details.day .grid { padding: 4px 16px 18px; }
+  footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line);
+           color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+  a.src { color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <p class="kicker">Hlídač komerčních prostor</p>
+      <h1>Klánovice a okolí do 5 km</h1>
+      <div class="status">
+        <span>Poslední běh: <b>01.06.2026 11:00</b></span>
+        <span>Novinek dnes: <b style="color:var(--new)">0</b></span>
+        <span>Sledováno celkem: <b>0</b></span>
+      </div>
+    </header>
+
+    <section>
+      <h2>Dnešní novinky <span class="count">2026-06-01</span></h2>
+      <p class="empty">Dnes žádná nová nabídka. Hlídám dál.</p>
+    </section>
+
+    <section>
+      <h2>Archiv <span class="count">posledních 21 dní</span></h2>
+      <p class="empty">Zatím žádná historie.</p>
+    </section>
+
+    <footer>
+      Data: Sreality.cz · automaticky aktualizováno přes GitHub Actions ·
+      filtr: komerční, plocha 15–90 m², okruh 5 km od Klánovic
+    </footer>
+  </div>
+</body>
+</html>
