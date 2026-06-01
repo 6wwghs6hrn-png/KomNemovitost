@@ -1,0 +1,2 @@
+# KomNemovitost
+Průzkum komerčních nemovitostí
