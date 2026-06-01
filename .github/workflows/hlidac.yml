@@ -1,43 +1,35 @@
 name: Hlídač komerčních prostor
-
-   on:
-     schedule:
-       - cron: '0 10 * * *'
-     workflow_dispatch:
-
-   permissions:
-     contents: write
-
-   concurrency:
-     group: hlidac
-     cancel-in-progress: false
-
-   jobs:
-     hlidat:
-       runs-on: ubuntu-latest
-       steps:
-         - name: Checkout
-           uses: actions/checkout@v4
-
-         - name: Python
-           uses: actions/setup-python@v5
-           with:
-             python-version: '3.12'
-
-         - name: Závislosti
-           run: pip install -r requirements.txt
-
-         - name: Spustit hlídače
-           run: python monitor.py
-
-         - name: Uložit výsledky
-           run: |
-             git config user.name  "hlidac-bot"
-             git config user.email "actions@github.com"
-             git add docs/index.html state/seen.json state/log.json
-             if git diff --staged --quiet; then
-               echo "Žádná změna."
-             else
-               git commit -m "Aktualizace: $(date -u +'%Y-%m-%d %H:%M UTC')"
-               git push
-             fi
+on:
+  schedule:
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: hlidac
+  cancel-in-progress: false
+jobs:
+  hlidat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Závislosti
+        run: pip install -r requirements.txt
+      - name: Spustit hlídače
+        run: python monitor.py
+      - name: Uložit výsledky
+        run: |
+          git config user.name  "hlidac-bot"
+          git config user.email "actions@github.com"
+          git add docs/index.html state/seen.json state/log.json
+          if git diff --staged --quiet; then
+            echo "Žádná změna."
+          else
+            git commit -m "Aktualizace: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
